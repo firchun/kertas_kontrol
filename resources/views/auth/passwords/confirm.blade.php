@@ -35,7 +35,8 @@
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                                         <div class="form-group">
-                                            <input type="password" class="form-control form-control-user" name="password" placeholder="{{ __('Password') }}" required autocomplete="current-password">
+                                            <input type="password" class="form-control" name="password"
+                                                placeholder="{{ __('Password') }}" required autocomplete="current-password">
                                         </div>
 
                                         <div class="form-group">

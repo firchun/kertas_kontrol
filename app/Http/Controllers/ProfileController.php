@@ -16,7 +16,7 @@ class ProfileController extends Controller
 
     public function index()
     {
-        return view('profile');
+        return view('pages.users.profile');
     }
 
     public function update(Request $request)
@@ -46,6 +46,6 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return redirect()->route('profile')->withSuccess('Profile updated successfully.');
+        return redirect()->back()->with('Profile updated successfully.');
     }
 }

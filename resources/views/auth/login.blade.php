@@ -15,8 +15,8 @@
                                         <div class=" mb-4 d-lg-none form-inline justify-content-center">
                                             {{-- <img src="{{ asset('img/favicon.png') }}" class="img-fluid pr-2 border-right"
                                                 style="height:40px;"> --}}
-                                            <img src="{{ asset('img/favicon.png') }}" class="img-fluid"
-                                                style="height:80px;">
+                                            {{-- <img src="{{ asset('img/favicon.png') }}" class="img-fluid"
+                                                style="height:80px;"> --}}
                                         </div>
                                         <h1 class="text-primary mb-0"><b>{{ env('APP_NAME') }}</b></h1>
 

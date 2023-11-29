@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Layanan;
+use App\Models\Notifikasi;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -28,9 +31,18 @@ class HomeController extends Controller
 
         $widget = [
             'users' => $users,
-            //...
+            'layanan' => Layanan::all(),
         ];
 
+
         return view('pages.home', compact('widget'));
+    }
+    public function notifikasi()
+    {
+        $data = [
+            'title' => 'Semua Notifikasi',
+            'notifikasi' => Notifikasi::where('id_user', Auth::user()->id)->get(),
+        ];
+        return view('pages.notifikasi.notifikasi', $data);
     }
 }

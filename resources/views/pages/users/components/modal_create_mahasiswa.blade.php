@@ -27,6 +27,11 @@
                         <input type="email" class="form-control" name="email" placeholder="Email">
                     </div>
                     <div class="form-group ">
+                        <label class="form-control-label" for="npm">NPM<span
+                                class="small text-danger">*</span></label>
+                        <input type="number" class="form-control" name="npm" placeholder="NPM">
+                    </div>
+                    <div class="form-group ">
                         <label class="form-control-label" for="phone">No HP<span
                                 class="small text-danger">*</span></label>
                         <input type="number" class="form-control" name="phone" placeholder="No. HP">

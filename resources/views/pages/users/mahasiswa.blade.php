@@ -39,7 +39,7 @@
                                         <td>{{ $loop->iteration }}</td>
 
                                         <td><strong>
-                                                {{ $item->name }}</strong>
+                                                {{ $item->name }}</strong><br>{{ $item->npm }}
                                         </td>
                                         <td><a href="mailto:{{ $item->email }}">{{ $item->email }}</a>
                                         </td>

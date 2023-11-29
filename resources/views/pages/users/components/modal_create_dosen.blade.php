@@ -22,6 +22,16 @@
                         <input type="text" class="form-control" name="name" placeholder="Nama Lengkap">
                     </div>
                     <div class="form-group ">
+                        <label class="form-control-label" for="last_name">Title<span
+                                class="small text-danger">*</span></label>
+                        <input type="text" class="form-control" name="last_name" placeholder="Title">
+                    </div>
+                    <div class="form-group ">
+                        <label class="form-control-label" for="nip">NIP/NIDN<span
+                                class="small text-danger">*</span></label>
+                        <input type="number" class="form-control" name="nip" placeholder="NIP" required>
+                    </div>
+                    <div class="form-group ">
                         <label class="form-control-label" for="email">Email<span
                                 class="small text-danger">*</span></label>
                         <input type="email" class="form-control" name="email" placeholder="Email">

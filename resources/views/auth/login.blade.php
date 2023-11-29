@@ -45,8 +45,8 @@
                                         @csrf
                                         <div class="form-group">
                                             <input type="text" class="form-control " name="email"
-                                                placeholder="{{ __('Email') }}" value="{{ old('email') }}" required
-                                                autofocus>
+                                                placeholder="{{ __('NIP/NIDN/NPM/Email') }}" value="{{ old('email') }}"
+                                                required autofocus>
                                         </div>
 
                                         <div class="form-group">

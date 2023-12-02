@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class BimbinganController extends Controller
 {
@@ -175,7 +176,63 @@ class BimbinganController extends Controller
         } catch (\Exception $e) {
 
             // Redirect atau berikan respons sesuai kebutuhan
-            return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+            return redirect()->back()->with('danger', 'Terjadi kesalahan: ' . $e->getMessage());
         }
+    }
+    public function print(Request $request)
+    {
+        $id_semester = $request->id_semester;
+        $id_mahasiswa = $request->id_mahasiswa;
+
+        // dd($id_mahasiswa, $id_semester);
+        $layanan = Layanan::all();
+
+        $bimbingan = Bimbingan::where('id_user', $id_mahasiswa)
+            ->where('id_semester', $id_semester)
+            ->get();
+
+        //cek hasil
+        $jumlah_bimbingan = 0;
+
+        foreach ($bimbingan as $bimbinganItem) {
+            $id_bimbingan = $bimbinganItem->id;
+
+            $hasilBimbinganGrouped = BimbinganHasil::where('id_bimbingan', $id_bimbingan)->get()->groupBy('id_bimbingan');
+
+            $jumlah_bimbingan += $hasilBimbinganGrouped->count();
+        }
+
+        // Output jumlah hasil_bimbingan
+        // dd($jumlah_bimbingan);
+
+        if ($bimbingan->isEmpty()) {
+            return redirect()->back()->with('danger', 'Belum ada data bimbingan');
+        } elseif ($jumlah_bimbingan < $layanan->count()) {
+            return redirect()->back()->with('danger', 'Data Hasil bimbingan belum lengkap');
+        }
+
+        $dosen_pa = PenasehatAkademik::where('id_mahasiswa', $id_mahasiswa)->first();
+        $mahasiswa = User::find($id_mahasiswa);
+        $semester = Semester::find($id_semester);
+        // dd($id_mahasiswa);
+
+        $angkatan = substr($mahasiswa->npm ?? 0, 0, 4);
+        $tahun = date('Y');
+        $semester_mahasiswa = ($tahun - $angkatan) * 2  + ($semester->semester == 'ganjil' ? 1 : 0);
+
+        $pdf =  \PDF::loadView('pages.bimbingan.riwayat.print', [
+            'data' => $bimbingan,
+            'semester' => $semester,
+            'layanan' => $layanan,
+            'mahasiswa' => $mahasiswa,
+            'dosen_pa' => $dosen_pa,
+            'semester_mahasiswa' => $semester_mahasiswa,
+        ])->setPaper('a4', 'landscape');
+
+        return $pdf->stream('Riwayat Bimbingan Semester ' . $semester->code . '.pdf');
+    }
+
+    public function chart_hambatan()
+    {
     }
 }

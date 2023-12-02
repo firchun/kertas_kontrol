@@ -49,6 +49,21 @@
                                     </div>
                                 </div>
                             @endforeach
+                            @foreach (App\Models\Layanan::all() as $layanan)
+                                @if (App\Models\LayananPeriode::where('id_semester', $item->id)->where('id_layanan', $layanan->id)->first() == null)
+                                    <div class="form-group ">
+                                        <input type="hidden" name="id_layanan[]" value="{{ $layanan->id }}">
+                                        <label class="form-control-label text-warning">{{ $layanan->layanan }}<span
+                                                class="small text-danger">*</span></label>
+                                        <div class="form-inline">
+                                            <label class="mr-2">Mulai</label>
+                                            <input type="date" class="form-control" name="tanggal_awal[]" required>
+                                            <label class="mx-3">Sampai</label>
+                                            <input type="date" class="form-control" name="tanggal_akhir[]" required>
+                                        </div>
+                                    </div>
+                                @endif
+                            @endforeach
                         </div>
                     </div>
 

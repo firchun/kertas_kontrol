@@ -53,19 +53,28 @@
                                         @endif
                                     </td>
                                     <td style="width: 300px;">
-                                        <a href="#" data-toggle="modal" data-target="#info-{{ $item->id }}"
-                                            class="btn btn-secondary"><i class="fa fa-info"></i> Periode
-                                        </a>
-                                        @if (Auth::user()->role == 'mahasiswa')
-                                            <a href="#" class="btn btn-primary"><i class="fa fa-print"></i>
-                                                Cetak Riwayat
+                                        <div class="d-flex">
+
+                                            <a href="#" data-toggle="modal" data-target="#info-{{ $item->id }}"
+                                                class="btn btn-secondary mx-2"><i class="fa fa-info"></i> Periode
                                             </a>
-                                        @else
-                                            <a href="{{ route('bimbingan.riwayat.mahasiswa', $item->code) }}"
-                                                class="btn btn-primary"><i class="fa fa-folder"></i>
-                                                Mahasiswa
-                                            </a>
-                                        @endif
+                                            @if (Auth::user()->role == 'mahasiswa')
+                                                <form action="{{ route('bimbingan.riwayat.print') }}" method="GET">
+                                                    <input type="hidden" name="id_mahasiswa"
+                                                        value="{{ Auth::user()->id }}">
+                                                    <input type="hidden" name="id_semester" value="{{ $item->id }}">
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                            class="fa fa-print"></i>
+                                                        Cetak
+                                                        Riwayat</button>
+                                                </form>
+                                            @else
+                                                <a href="{{ route('bimbingan.riwayat.mahasiswa', $item->code) }}"
+                                                    class="btn btn-primary"><i class="fa fa-folder"></i>
+                                                    Mahasiswa
+                                                </a>
+                                            @endif
+                                        </div>
 
                                     </td>
                                 </tr>

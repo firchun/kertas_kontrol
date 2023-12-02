@@ -31,9 +31,15 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/read_notif/{id}', [NotifikasiController::class, 'read'])->name('read_notif');
     Route::put('/read_all/{id}', [NotifikasiController::class, 'read_all'])->name('read_all');
     // Route::get('/home', [HomeController::class, 'index'])->name('home');
-
+    //profile
     Route::get('/profile', 'ProfileController@index')->name('profile');
     Route::put('/profile', 'ProfileController@update')->name('profile.update');
+    //bimbingan
+    Route::get('/bimbingan/riwayat', [BimbinganController::class, 'riwayat'])->name('bimbingan.riwayat');
+    Route::get('/bimbingan/riwayat/mahasiswa/{code}', [BimbinganController::class, 'riwayat_mahasiswa'])->name('bimbingan.riwayat.mahasiswa');
+    Route::get('/bimbingan/mahasiswa/{id}', [BimbinganController::class, 'mahasiswa'])->name('bimbingan.mahasiswa');
+    Route::get('/bimbingan/riwayat/print', [BimbinganController::class, 'print'])->name('bimbingan.riwayat.print');
+    Route::get('/bimbingan/chart_hambatan/{code}', [HomeController::class, 'chart_hambatan'])->name('bimbingan.chart_hambatan');
 });
 Route::middleware(['role:admin'])->group(function () {
     //akun
@@ -68,13 +74,12 @@ Route::middleware(['role:admin'])->group(function () {
 Route::middleware(['role:dosen'])->group(function () {
     //bimbingan
     Route::get('/bimbingan', [BimbinganController::class, 'index'])->name('bimbingan');
-    Route::get('/bimbingan/riwayat/mahasiswa/{code}', [BimbinganController::class, 'riwayat_mahasiswa'])->name('bimbingan.riwayat.mahasiswa');
-    Route::get('/bimbingan/mahasiswa/{id}', [BimbinganController::class, 'mahasiswa'])->name('bimbingan.mahasiswa');
+
     Route::post('/bimbingan/store_hasil', [BimbinganController::class, 'store_hasil'])->name('bimbingan.store_hasil');
 });
 Route::middleware(['role:dosen,mahasiswa'])->group(function () {
     //bimbingan
-    Route::get('/bimbingan/riwayat', [BimbinganController::class, 'riwayat'])->name('bimbingan.riwayat');
+
     Route::get('/bimbingan', [BimbinganController::class, 'index'])->name('bimbingan');
     Route::get('/bimbingan/show/{id}', [BimbinganController::class, 'show'])->name('bimbingan.show');
     Route::post('/bimbingan/store', [BimbinganController::class, 'store'])->name('bimbingan.store');

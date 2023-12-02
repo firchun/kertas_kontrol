@@ -13,4 +13,8 @@ class BimbinganHambatan extends Model
     {
         return $this->belongsTo(JenisHambatan::class, 'id_hambatan', 'id');
     }
+    public function semester(): BelongsTo
+    {
+        return $this->belongsTo(Semester::class, 'id_semester', 'id');
+    }
 }

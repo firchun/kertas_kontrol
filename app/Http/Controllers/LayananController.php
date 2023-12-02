@@ -11,7 +11,7 @@ class LayananController extends Controller
     {
         $data = [
             'title' => 'Data Layanan',
-            'layanan' => Layanan::latest()->get(),
+            'layanan' => Layanan::all(),
         ];
         return view('pages.layanan.index', $data);
     }

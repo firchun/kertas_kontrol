@@ -85,10 +85,10 @@
         </li>
         <hr class="sidebar-divider">
     @endif
+    <div class="sidebar-heading">
+        {{ __('Bimbingan') }}
+    </div>
     @if (Auth::user()->role == 'mahasiswa' || Auth::user()->role == 'dosen')
-        <div class="sidebar-heading">
-            {{ __('Bimbingan') }}
-        </div>
         <!-- Nav Item - bimbingan -->
         <li class="nav-item {{ Nav::isRoute('bimbingan') }}">
             <a class="nav-link" href="{{ route('bimbingan') }}">
@@ -96,15 +96,15 @@
                 <span>{{ __('Bimbingan') }}</span>
             </a>
         </li>
-        <!-- Nav Item - bimbingan -->
-        <li class="nav-item {{ Nav::isRoute('bimbingan.riwayat') }}">
-            <a class="nav-link" href="{{ route('bimbingan.riwayat') }}">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>{{ __('Riwayat Bimbingan') }}</span>
-            </a>
-        </li>
-        <hr class="sidebar-divider">
     @endif
+    <!-- Nav Item - bimbingan -->
+    <li class="nav-item {{ Nav::isRoute('bimbingan.riwayat') }}">
+        <a class="nav-link" href="{{ route('bimbingan.riwayat') }}">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>{{ __('Riwayat Bimbingan') }}</span>
+        </a>
+    </li>
+    <hr class="sidebar-divider">
     {{-- end admin --}}
     <!-- Heading -->
     <div class="sidebar-heading">

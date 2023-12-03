@@ -30,13 +30,14 @@
             var selectedOption = document.getElementById('option-code');
             var selectedValue = selectedOption.value;
 
+
             document.getElementById('code').innerText = selectedValue;
 
             if (myChart) {
                 myChart.destroy();
             }
 
-            fetch(`http://127.0.0.1:8000/bimbingan/chart_hambatan/${selectedValue}`)
+            fetch(`https://labimak-si.mixdev.id/bimbingan/chart_hambatan/${selectedValue}`)
                 .then(response => response.json())
                 .then(data => {
                     const chartElement = document.getElementById('myChart');

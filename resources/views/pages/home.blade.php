@@ -41,14 +41,14 @@
                             ->skip(1)
                             ->first();
 
-                        $bimbinganHambatan = App\Models\bimbinganHambatan::where('id_semester', $semester_now->id)
+                        $bimbinganHambatan = App\Models\BimbinganHambatan::where('id_semester', $semester_now->id)
                             ->where('id_hambatan', $hambatanItem->id)
                             ->get();
-                        $before = App\Models\bimbinganHambatan::where('id_semester', $semester_before->id ?? 0)
+                        $before = App\Models\BimbinganHambatan::where('id_semester', $semester_before->id ?? 0)
                             ->where('id_hambatan', $hambatanItem->id)
                             ->get();
 
-                        $total_hambatan = App\Models\bimbinganHambatan::count();
+                        $total_hambatan = App\Models\BimbinganHambatan::count();
 
                         $data_now = $bimbinganHambatan->count();
                         $data_before = $before->count();

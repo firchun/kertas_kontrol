@@ -62,20 +62,29 @@
                                             $bimbingan = App\Models\Bimbingan::where('id_user', $item->id_mahasiswa)
                                                 ->where('id_layanan', $layanan->id)
                                                 ->first();
+                                            $cek_bimbingan = App\Models\Bimbingan::where('id_layanan', $layanan->id)
+                                                ->where('id_user', $item->id_mahasiswa)
+                                                ->where('id_semester', App\Models\Semester::latest()->first()->id)
+                                                ->count();
+
                                         @endphp
                                         @if ($bimbingan)
-                                            <span class="text-success">Telah Mengisi Kartu Bimbingan</span>
+                                            <span class="text-primary">Telah Mengisi Kartu Bimbingan</span><br>
+                                            @if ($cek_bimbingan)
+                                                @php
+                                                    $hasil_bimbingan = App\Models\BimbinganHasil::where('id_bimbingan', $bimbingan->id)->count();
+                                                @endphp
+                                                @if ($hasil_bimbingan != 0)
+                                                    <span class="badge badge-success">Selesai</span>
+                                                @else
+                                                    <span class="badge badge-warning">Proses</span>
+                                                @endif
+                                            @endif
                                         @else
                                             <span class="text-danger">Terlambat Mengisi Kartu Bimbingan</span>
                                         @endif
                                     </td>
                                     <td>
-                                        @php
-                                            $cek_bimbingan = App\Models\Bimbingan::where('id_layanan', $layanan->id)
-                                                ->where('id_user', $item->id_mahasiswa)
-                                                ->where('id_semester', App\Models\Semester::latest()->first()->id)
-                                                ->count();
-                                        @endphp
                                         @if ($cek_bimbingan != 0)
                                             @php
                                                 $view_bimbingan =

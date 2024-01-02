@@ -132,10 +132,13 @@
             @else
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">{{ $title }}</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Chat {{ $title }}</h6>
                     </div>
 
-                    <div class="card-body">
+                    <div class="card-body" style="">
+                        <iframe style="width:100%; min-height:60vh; border:none; overflow: hidden;"
+                            src="{{ route('chat', [$bimbingan->id_user, $bimbingan->id]) }}"></iframe>
+
                     </div>
                 </div>
             @endif

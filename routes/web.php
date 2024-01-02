@@ -40,6 +40,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bimbingan/mahasiswa/{id}', [BimbinganController::class, 'mahasiswa'])->name('bimbingan.mahasiswa');
     Route::get('/bimbingan/riwayat/print', [BimbinganController::class, 'print'])->name('bimbingan.riwayat.print');
     Route::get('/bimbingan/chart_hambatan/{code}', [HomeController::class, 'chart_hambatan'])->name('bimbingan.chart_hambatan');
+
+    //chat bimbingan
+    Route::get('/chat/user/{user},{id_bimbingan}', [App\Http\Controllers\ChatController::class, 'chat'])->name('chat');
+    Route::get('/chat/room/{room}', [App\Http\Controllers\ChatController::class, 'room'])->name('chat.room');
+    Route::get('/chat/get/{room}', [App\Http\Controllers\ChatController::class, 'getChat'])->name('chat.get');
+    Route::post('/chat/send', [App\Http\Controllers\ChatController::class, 'sendChat'])->name('chat.send');
 });
 Route::middleware(['role:admin'])->group(function () {
     //akun

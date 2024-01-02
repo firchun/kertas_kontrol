@@ -71,7 +71,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td><strong>{{ $item->layanan }}</strong></td>
-                                    <td>
+                                    <td style="width:160px;">
                                         @if ($sesi == 'pending')
                                             <span class="p-2 rounded text-white bg-warning">Sesi Belum di buka</span>
                                         @elseif ($sesi == 'end')
@@ -85,6 +85,12 @@
                                             @if ($status->tanggal_awal >= date('Y-m-d') || $status->tanggal_akhir <= date('Y-m-d'))
                                                 @if ($bimbingan)
                                                     <span class="text-success">Telah Bimbingan</span>
+                                                    @php
+                                                        $hasil_bimbingan = App\Models\BimbinganHasil::where('id_bimbingan', $bimbingan->id)->count();
+                                                    @endphp
+                                                    @if ($hasil_bimbingan == 0)
+                                                        <span class="badge badge-warning">Proses</span>
+                                                    @endif
                                                 @else
                                                     <span class="text-danger">Terlambat Bimbingan</span>
                                                     <br><small class="text-muted">*Silahkan segera komunikasikan pada dosen

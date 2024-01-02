@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title }} | {{ config('app.name', 'SIPETA') }}</title>
+    <title>{{ $title }} | {{ config('app.name', 'Kartu Kontrol') }}</title>
 
     <!-- Fonts -->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
@@ -22,5 +22,58 @@
 
     <!-- Favicon -->
     <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
+    @stack('css')
+    <style>
+        ::-webkit-scrollbar {
+            width: 10px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #eee
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555
+        }
+
+        .wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main {
+            background-color: #eee;
+            width: 100%;
+            position: relative;
+        }
+
+        .scroll {
+            overflow-y: scroll !important;
+            scroll-behavior: smooth !important;
+            height: 80vh !important;
+        }
+
+        .name {
+            font-size: 10px
+        }
+
+        .read {
+            font-size: 10px
+        }
+
+        .msg {
+            background-color: #fff;
+            font-size: 14px;
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: 500;
+            color: #3e3c3c
+        }
+    </style>
 </head>
-    

@@ -13,8 +13,8 @@
                 <div class="modal-body">
                     <input type="hidden" name="id_semester" value="{{ App\Models\Semester::latest()->first()->id }}">
                     @if (Auth::user()->role != 'mahasiswa')
-                        <input type="text" name="id_mahasiswa" value="{{ $item->id_mahasiswa }}">
-                        <input type="text" name="id_layanan" value="{{ $layanan->id }}">
+                        <input type="hidden" name="id_mahasiswa" value="{{ $item->id_mahasiswa }}">
+                        <input type="hidden" name="id_layanan" value="{{ $layanan->id }}">
                     @else
                         <input type="hidden" name="id_mahasiswa" value="{{ Auth::user()->id }}">
                         <input type="hidden" name="id_layanan" value="{{ $item->id }}">

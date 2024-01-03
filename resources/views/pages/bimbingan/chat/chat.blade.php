@@ -111,7 +111,6 @@
                     minute: 'numeric'
                 });
 
-
                 chatsHTML += `
                  <div class=" d-flex align-items-center 
                  ${r.id_user == "{{ Auth::user()->id }}" ? 'text-right justify-content-end' : ''}">

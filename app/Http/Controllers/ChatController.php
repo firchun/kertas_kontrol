@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use App\Events\ChatEvent;
 use App\Models\Bimbingan;
-use App\Models\Chat;
+use App\Models\chat;
 use App\Models\Lapak;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -65,7 +65,7 @@ class ChatController extends Controller
             'updated_at' => now()
         ]);
 
-        Chat::where('chat_room_id', $request->room)
+        chat::where('chat_room_id', $request->room)
             ->where('id_user', '!=', Auth::user()->id)
             ->update(['is_read' => 1]);
 

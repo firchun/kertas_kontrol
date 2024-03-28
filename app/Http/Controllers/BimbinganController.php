@@ -207,9 +207,10 @@ class BimbinganController extends Controller
 
         if ($bimbingan->isEmpty()) {
             return redirect()->back()->with('danger', 'Belum ada data bimbingan');
-        } elseif ($jumlah_bimbingan < $layanan->count()) {
-            return redirect()->back()->with('danger', 'Data Hasil bimbingan belum lengkap');
         }
+        // elseif ($jumlah_bimbingan < $layanan->count()) {
+        //     return redirect()->back()->with('danger', 'Data Hasil bimbingan belum lengkap');
+        // }
 
         $dosen_pa = PenasehatAkademik::where('id_mahasiswa', $id_mahasiswa)->first();
         $mahasiswa = User::find($id_mahasiswa);

@@ -78,7 +78,7 @@
     </div>
 </div>
 @push('js')
-    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+    <script src="https://js.pusher.com/7.2.0/pusher.min.js"></script>
     {{-- Load pusher library --}}
     <script>
         function scrollToBottom() {
@@ -97,46 +97,55 @@
         });
     </script>
     <script>
-        // Get chat from API
-        const getChat = async () => {
-            const response = await fetch('/chat/get/{{ $room->id }}')
-            const data = await response.json()
+        const getChat = async (lastMessageTime) => {
+            try {
+                const response = await fetch(`/chat/get/{{ $room->id }}?last_message_time=${lastMessageTime}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch chat data');
+                }
+                const data = await response.json();
 
-            let chatsHTML = '';
+                let chatsHTML = '';
 
-            data.map(r => {
-                const createdAt = new Date(r.created_at);
-                const timeString = createdAt.toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: 'numeric'
-                });
+                data.forEach(r => {
+                    const createdAt = new Date(r.created_at);
+                    const timeString = createdAt.toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: 'numeric'
+                    });
 
-                chatsHTML += `
-                 <div class=" d-flex align-items-center 
+                    chatsHTML += `
+                 <div class="d-flex align-items-center 
                  ${r.id_user == "{{ Auth::user()->id }}" ? 'text-right justify-content-end' : ''}">
                      <div class="pr-2 ${r.id_user == "{{ Auth::user()->id }}" ? '' : 'pl-1'}"> 
-                         <span class="name">${r.id_user == "{{ Auth::user()->id }}" ?  'Anda' : "{{ Auth::user()->role == 'mahasiswa' ? 'Dosen' : 'Mahasiswa' }}" } | ${timeString}</span>
+                         <span class="name">${r.id_user == "{{ Auth::user()->id }}" ? 'Anda' : "{{ Auth::user()->role == 'mahasiswa' ? 'Dosen' : 'Mahasiswa' }}" } | ${timeString}</span>
                          <p class="msg mb-0">${r.message}</p>
-                         <span class="read ${r.is_read == 0 ?  'text-muted' :'text-success' } ">${r.is_read == 0 ?  'Belum di baca' :'<i class="fa fa-check"> </i> dibaca' } </span>
+                         <span class="read ${r.is_read == 0 ? 'text-muted' :'text-success' } ">${r.is_read == 0 ? 'Belum di baca' :'<i class="fa fa-check"></i> dibaca' } </span>
                      </div>
                  </div>`;
-            });
+                });
 
-            document.getElementById('message').innerHTML = chatsHTML;
+                document.getElementById('message').innerHTML = chatsHTML;
+            } catch (error) {
+                console.error('Error fetching chat:', error);
+            }
         }
 
-        window.addEventListener('load', async (ev) => {
-            await getChat();
-
+        window.addEventListener('load', async () => {
+            Pusher.logToConsole = true;
             const pusher = new Pusher("{{ env('PUSHER_APP_KEY') }}", {
                 cluster: "{{ env('PUSHER_APP_CLUSTER') }}"
-            })
+            });
 
-            const channel = pusher.subscribe('chat-channel');
+            // const channel = pusher.subscribe('chat-channel');
+            const channel = pusher.subscribe('client-chat-channel');
 
             channel.bind('chat-send', async (data) => {
-                await getChat();
+                const lastMessageTime = data.created_at;
+                await getChat(lastMessageTime);
             });
+
+            await getChat('');
 
             document.getElementById('form').addEventListener('submit', async (ev) => {
                 ev.preventDefault();
@@ -145,36 +154,40 @@
                 const loadingIcon = document.getElementById('loadingIcon');
                 const message = document.querySelector('input[name="text"]');
 
-                if (message.value.trim() !==
-                    '') {
+                if (message.value.trim() !== '') {
                     submitButton.style.display = 'none';
                     loadingIcon.style.display = 'block';
 
-                    const response = await fetch('/chat/send', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            message: message.value,
-                            room: '{{ $room->id }}'
-                        })
-                    });
+                    try {
+                        const response = await fetch('/chat/send', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                message: message.value,
+                                room: '{{ $room->id }}'
+                            })
+                        });
 
-                    const data = await response.json();
+                        const data = await response.json();
 
-                    if (data) {
-                        await getChat();
+                        if (data) {
+                            channel.trigger('client-chat-channel', 'chat-send', data);
+                            await getChat('');
 
-                        submitButton.style.display = 'block';
-                        loadingIcon.style.display = 'none';
+                            submitButton.style.display = 'block';
+                            loadingIcon.style.display = 'none';
 
-                        message.value = '';
+                            message.value = '';
+                        }
+                    } catch (error) {
+                        console.error('Error sending chat:', error);
                     }
                 }
             });
-        })
+        });
     </script>
 @endpush
 @include('layouts.component.script')

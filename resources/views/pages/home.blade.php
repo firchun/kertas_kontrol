@@ -21,7 +21,7 @@
 
     <div class="my-4 text-center bg-light">
         <img src="{{ asset('img/favicon.png') }}" height="100px;" class="mb-3" alt="logo">
-        <h2><b class="text-primary">Dashboard</b><br>Sistem Informasi Kertas Kontrol<br>Jurusan Sistem Infromasi</h2>
+        <h2><b class="text-primary">Dashboard</b><br>Sistem Informasi Bimbingan Akademik<br>Jurusan Sistem Infromasi</h2>
     </div>
     <hr>
     @if (Auth::user()->role == 'admin' || Auth::user()->role == 'ketua_jurusan')
@@ -37,9 +37,7 @@
                 <div class="col-lg-3 p-2">
                     @php
                         $semester_now = App\Models\Semester::latest()->first();
-                        $semester_before = App\Models\Semester::latest()
-                            ->skip(1)
-                            ->first();
+                        $semester_before = App\Models\Semester::latest()->skip(1)->first();
 
                         $bimbinganHambatan = App\Models\BimbinganHambatan::where('id_semester', $semester_now->id)
                             ->where('id_hambatan', $hambatanItem->id)

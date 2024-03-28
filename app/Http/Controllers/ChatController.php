@@ -39,17 +39,21 @@ class ChatController extends Controller
         return view('pages.bimbingan.chat.chat', compact('room', 'users', 'title'));
     }
 
-    public function getChat($room)
+    public function getChat($room, $lastMessageTime = null)
     {
-        //perlu id_bimbingan agar tidak bertabrakan
-
         // Join with user
-        $chats = DB::table('chats')
+        $query = DB::table('chats')
             ->join('users', 'users.id', '=', 'chats.id_user')
             ->where('chat_room_id', $room)
             ->select('chats.*', 'users.name as user_name')
-            ->orderBy('chats.created_at')
-            ->get();
+            ->orderBy('chats.created_at');
+
+        // Jika ada waktu pesan terakhir, ambil pesan baru sejak waktu itu
+        if ($lastMessageTime) {
+            $query->where('chats.created_at', '>', $lastMessageTime);
+        }
+
+        $chats = $query->get();
 
         return response()->json($chats);
     }

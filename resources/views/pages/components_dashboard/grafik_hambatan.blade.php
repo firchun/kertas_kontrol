@@ -25,76 +25,84 @@
                 return result;
             }, {});
         }
+        var myChart;
 
         function updateChart() {
             var selectedOption = document.getElementById('option-code');
             var selectedValue = selectedOption.value;
-
-
             document.getElementById('code').innerText = selectedValue;
 
             if (myChart) {
                 myChart.destroy();
             }
 
-            fetch(`https://labimak-si.mixdev.id/bimbingan/chart_hambatan/${selectedValue}`)
+            fetch(`{{ url('/bimbingan/chart_hambatan/') }}/${selectedValue}`)
                 .then(response => response.json())
                 .then(data => {
-                    const chartElement = document.getElementById('myChart');
-                    const dataKosongElement = document.getElementById('data_kosong');
-
-                    if (data.length === 0) {
-                        toggleDisplay(chartElement, false);
-                        toggleDisplay(dataKosongElement, true);
-                    } else {
-                        toggleDisplay(chartElement, true);
-                        toggleDisplay(dataKosongElement, false);
+                    // console.log(data);
+                    const jenisHambatan = data.jenis_hambatan;
+                    const countByHambatan = data.jumlah;
+                    // Check if data is empty
+                    if (!jenisHambatan || jenisHambatan.length === 0 || !countByHambatan || countByHambatan.length ===
+                        0) {
+                        document.getElementById('myChart').style.display = 'none'; // Sembunyikan grafik
+                        document.getElementById('data_kosong').style.display = 'block'; // Tampilkan pesan data kosong
+                        return; // Hentikan eksekusi jika data kosong
                     }
 
+                    // Show chart and hide empty data message
+                    document.getElementById('myChart').style.display = 'block';
+                    document.getElementById('data_kosong').style.display = 'none';
 
+                    const colors = [];
+                    for (let i = 0; i < jenisHambatan.length; i++) {
+                        const randomColor = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                        colors.push(randomColor);
+                    }
 
-                    var groupedData = groupBy(data, 'id_hambatan');
-                    var labels = Object.keys(groupedData).map(key => {
-                        return data.find(item => item.id_hambatan == key).hambatan.jenis_hambatan;
-                    });
-                    var values = Object.values(groupedData).map(group => group.length);
+                    const newData = {
+                        labels: jenisHambatan,
+                        datasets: [{
+                            label: jenisHambatan,
+                            data: countByHambatan,
+                            backgroundColor: colors,
+                            borderColor: colors.map(color => color.replace('0.2',
+                                '1')),
+                            borderWidth: 1
+                        }]
+                    };
 
-
-                    // Create the chart
-                    var ctx = document.getElementById('myChart').getContext('2d');
-                    myChart = new Chart(ctx, {
+                    const config = {
                         type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'Jumlah',
-                                data: values,
-                                backgroundColor: 'rgb(255,153,174,1)',
-                                borderColor: 'rgb(255,153,174,1)',
-                                borderWidth: 1
-                            }]
-                        },
+                        data: newData,
                         options: {
                             indexAxis: 'y',
-                            scales: {
-                                y: {
-                                    beginAtZero: true
+                            elements: {
+                                bar: {
+                                    borderWidth: 2,
                                 }
+                            },
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false,
+                                    position: 'right',
+                                },
+
                             }
                         }
-                    });
+                    };
+
+
+                    const ctx = document.getElementById('myChart').getContext('2d');
+                    myChart = new Chart(ctx, config);
                 })
-                .catch(error => console.error('Error fetching data:', error));
+                .catch(error => {
+                    console.error('Terjadi kesalahan saat fetching data:', error);
+                });
         }
-
-        function toggleDisplay(element, displayValue) {
-            element.style.display = displayValue ? 'block' : 'none';
-        }
-
-        var myChart;
 
         window.onload = updateChart;
-
         document.getElementById('option-code').addEventListener('change', updateChart);
     </script>
 @endpush

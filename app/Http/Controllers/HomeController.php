@@ -49,19 +49,42 @@ class HomeController extends Controller
         ];
         return view('pages.notifikasi.notifikasi', $data);
     }
+    // public function chart_hambatan($code)
+    // {
+    //     $semester = Semester::where('code', $code)->first() ?? null;
+    //     $data = BimbinganHambatan::with(['hambatan', 'semester']);
+
+    //     if ($semester) {
+    //         $data = $data->where('id_semester', $semester->id)
+    //             ->get();
+    //         return json_decode($data);
+    //     } else {
+    //         return response()->json([
+    //             'error' => 'No result'
+    //         ]);
+    //     }
+    // }
     public function chart_hambatan($code)
     {
-        $semester = Semester::where('code', $code)->first() ?? null;
-        $data = BimbinganHambatan::with(['hambatan', 'semester']);
+        $data = BimbinganHambatan::whereHas('semester', function ($query) use ($code) {
+            $query->where('code', $code);
+        })->get();
 
-        if ($semester) {
-            $data = $data->where('id_semester', $semester->id)
-                ->get();
-            return json_decode($data);
-        } else {
-            return response()->json([
-                'error' => 'No result'
-            ]);
+        // Proses data untuk grafik
+        $hambatanCount = [];
+        foreach ($data as $item) {
+            $idHambatan = $item->hambatan->jenis_hambatan;
+            if (isset($hambatanCount[$idHambatan])) {
+                $hambatanCount[$idHambatan]++;
+            } else {
+                $hambatanCount[$idHambatan] = 1;
+            }
         }
+
+        // Persiapkan data untuk dikirim ke view
+        $idHambatan = array_keys($hambatanCount);
+        $countByHambatan = array_values($hambatanCount);
+
+        return response()->json(['jenis_hambatan' => $idHambatan, 'jumlah' => $countByHambatan]);
     }
 }

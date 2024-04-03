@@ -100,39 +100,43 @@
                         }
 
                     @endphp
-                    <div class="card border shadow shadow-sm my-3">
-                        <div class="card-body">
-                            <h3>{{ $item->layanan }}
-                                @if ($sesi == 'pending')
-                                    <span class="badge badge-warning">Sesi Belum di buka</span>
-                                @elseif ($sesi == 'end')
-                                    <span class="badge badge-danger">sesi berakhir</span>
-                                @elseif ($sesi == 'open')
-                                    <span class="badge badge-primary">sesi dibuka</span>
+                    @if ($status)
+                        <div class="card border shadow shadow-sm my-3">
+                            <div class="card-body">
+                                <h3>{{ $item->layanan }}
+                                    @if ($sesi == 'pending')
+                                        <span class="badge badge-warning">Sesi Belum di buka</span>
+                                    @elseif ($sesi == 'end')
+                                        <span class="badge badge-danger">sesi berakhir</span>
+                                    @elseif ($sesi == 'open')
+                                        <span class="badge badge-primary">sesi dibuka</span>
+                                    @else
+                                        <span class="badge badge-warning">Ada kesalahan pada periode</span>
+                                    @endif
+                                </h3>
+                                @if ($status->tanggal_awal >= date('Y-m-d') || $status->tanggal_akhir <= date('Y-m-d'))
+                                    @if ($bimbingan)
+                                        <span class="text-success">Telah Bimbingan</span>
+                                    @else
+                                        <span class="text-danger">Terlambat Bimbingan</span>
+                                        <br><small class="text-muted">*Silahkan segera komunikasikan pada dosen
+                                            penasehat
+                                            akademik</small>
+                                    @endif
                                 @else
-                                    <span class="badge badge-warning">Ada kesalahan pada periode</span>
+                                    <span class="text-warning">Proses Bimbingan</span>
                                 @endif
-                            </h3>
-                            @if ($status->tanggal_awal >= date('Y-m-d') || $status->tanggal_akhir <= date('Y-m-d'))
-                                @if ($bimbingan)
-                                    <span class="text-success">Telah Bimbingan</span>
-                                @else
-                                    <span class="text-danger">Terlambat Bimbingan</span>
-                                    <br><small class="text-muted">*Silahkan segera komunikasikan pada dosen
-                                        penasehat
-                                        akademik</small>
-                                @endif
-                            @else
-                                <span class="text-warning">Proses Bimbingan</span>
-                            @endif
-                            <br>
-                            <small class="text-danger">
-                                Periode : {{ \Carbon\Carbon::parse($status->tanggal_awal ?? null)->format('d F') }}
-                                sampai
-                                {{ \Carbon\Carbon::parse($status->tanggal_akhir ?? null)->format('d F') }}
-                            </small>
+                                <br>
+                                <small class="text-danger">
+                                    Periode : {{ \Carbon\Carbon::parse($status->tanggal_awal ?? null)->format('d F') }}
+                                    sampai
+                                    {{ \Carbon\Carbon::parse($status->tanggal_akhir ?? null)->format('d F') }}
+                                </small>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <span class="text-center text-muted">Belum ada layanan bimbingan pada semester ini</span>
+                    @endif
                 @endforeach
             </div>
             <div class="col-lg-6">
@@ -181,7 +185,7 @@
                             ->where('id_semester', $semester)
                             ->first();
                         $sesi = '';
-                        if ($status->tanggal_awal != null || $status->tanggal_akhir != null) {
+                        if ($status != null) {
                             if ($status->tanggal_awal >= date('Y-m-d')) {
                                 $sesi = 'pending';
                             } elseif ($status->tanggal_akhir <= date('Y-m-d')) {
@@ -192,26 +196,30 @@
                         }
 
                     @endphp
-                    <div class="card border shadow shadow-sm my-3">
-                        <div class="card-body">
-                            <h3>{{ $item->layanan }}
-                                @if ($sesi == 'pending')
-                                    <span class="badge badge-warning">Sesi Belum di buka</span>
-                                @elseif ($sesi == 'end')
-                                    <span class="badge badge-danger">sesi berakhir</span>
-                                @elseif ($sesi == 'open')
-                                    <span class="badge badge-primary">sesi dibuka</span>
-                                @else
-                                    <span class="badge badge-warning">Ada kesalahan pada periode</span>
-                                @endif
-                            </h3>
-                            <small class="text-danger">
-                                Periode : {{ \Carbon\Carbon::parse($status->tanggal_awal ?? null)->format('d F') }}
-                                sampai
-                                {{ \Carbon\Carbon::parse($status->tanggal_akhir ?? null)->format('d F') }}
-                            </small>
+                    @if ($status)
+                        <div class="card border shadow shadow-sm my-3">
+                            <div class="card-body">
+                                <h3>{{ $item->layanan }}
+                                    @if ($sesi == 'pending')
+                                        <span class="badge badge-warning">Sesi Belum di buka</span>
+                                    @elseif ($sesi == 'end')
+                                        <span class="badge badge-danger">sesi berakhir</span>
+                                    @elseif ($sesi == 'open')
+                                        <span class="badge badge-primary">sesi dibuka</span>
+                                    @else
+                                        <span class="badge badge-warning">Ada kesalahan pada periode</span>
+                                    @endif
+                                </h3>
+                                <small class="text-danger">
+                                    Periode : {{ \Carbon\Carbon::parse($status->tanggal_awal ?? null)->format('d F') }}
+                                    sampai
+                                    {{ \Carbon\Carbon::parse($status->tanggal_akhir ?? null)->format('d F') }}
+                                </small>
+                            </div>
                         </div>
-                    </div>
+                    @else
+                        <span class="text-center text-muted">Belum ada layanan bimbingan pada semester ini</span>
+                    @endif
                 @endforeach
             </div>
             <div class="col-lg-6">

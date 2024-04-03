@@ -69,7 +69,7 @@
                                             <form action="{{ route('bimbingan.riwayat.print') }}" method="GET"
                                                 class="d-flex">
                                                 <input type="hidden" name="id_mahasiswa"
-                                                    value="{{ $item->id_mahasiswa }}">
+                                                    value="{{ Auth::user()->role == 'dosen' ? $mahasiswaItem->id_mahasiswa : $mahasiswaItem->id }}">
                                                 <select name="id_semester" class="form-control mr-3">
                                                     @foreach (App\Models\Semester::all() as $list)
                                                         <option value="{{ $list->id }}">{{ $list->code }}</option>

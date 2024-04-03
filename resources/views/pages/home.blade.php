@@ -87,13 +87,16 @@
                         $bimbingan = App\Models\Bimbingan::where('id_user', Auth::user()->id)
                             ->where('id_layanan', $item->id)
                             ->first();
+                        $sesi = '';
 
-                        if ($status->tanggal_awal >= date('Y-m-d')) {
-                            $sesi = 'pending';
-                        } elseif ($status->tanggal_akhir <= date('Y-m-d')) {
-                            $sesi = 'end';
-                        } else {
-                            $sesi = 'open';
+                        if ($status->tanggal_awal != null || $status->tanggal_akhir != null) {
+                            if ($status->tanggal_awal >= date('Y-m-d')) {
+                                $sesi = 'pending';
+                            } elseif ($status->tanggal_akhir <= date('Y-m-d')) {
+                                $sesi = 'end';
+                            } else {
+                                $sesi = 'open';
+                            }
                         }
 
                     @endphp
@@ -104,8 +107,10 @@
                                     <span class="badge badge-warning">Sesi Belum di buka</span>
                                 @elseif ($sesi == 'end')
                                     <span class="badge badge-danger">sesi berakhir</span>
-                                @else
+                                @elseif ($sesi == 'open')
                                     <span class="badge badge-primary">sesi dibuka</span>
+                                @else
+                                    <span class="badge badge-warning">Ada kesalahan pada periode</span>
                                 @endif
                             </h3>
                             @if ($status->tanggal_awal >= date('Y-m-d') || $status->tanggal_akhir <= date('Y-m-d'))
@@ -175,13 +180,15 @@
                         $status = App\Models\LayananPeriode::where('id_layanan', $item->id)
                             ->where('id_semester', $semester)
                             ->first();
-
-                        if ($status->tanggal_awal >= date('Y-m-d')) {
-                            $sesi = 'pending';
-                        } elseif ($status->tanggal_akhir <= date('Y-m-d')) {
-                            $sesi = 'end';
-                        } else {
-                            $sesi = 'open';
+                        $sesi = '';
+                        if ($status->tanggal_awal != null || $status->tanggal_akhir != null) {
+                            if ($status->tanggal_awal >= date('Y-m-d')) {
+                                $sesi = 'pending';
+                            } elseif ($status->tanggal_akhir <= date('Y-m-d')) {
+                                $sesi = 'end';
+                            } else {
+                                $sesi = 'open';
+                            }
                         }
 
                     @endphp
@@ -192,8 +199,10 @@
                                     <span class="badge badge-warning">Sesi Belum di buka</span>
                                 @elseif ($sesi == 'end')
                                     <span class="badge badge-danger">sesi berakhir</span>
-                                @else
+                                @elseif ($sesi == 'open')
                                     <span class="badge badge-primary">sesi dibuka</span>
+                                @else
+                                    <span class="badge badge-warning">Ada kesalahan pada periode</span>
                                 @endif
                             </h3>
                             <small class="text-danger">

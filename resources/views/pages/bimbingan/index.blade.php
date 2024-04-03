@@ -58,91 +58,119 @@
                                     $bimbingan = App\Models\Bimbingan::where('id_user', Auth::user()->id)
                                         ->where('id_layanan', $item->id)
                                         ->first();
-
-                                    if ($status->tanggal_awal >= date('Y-m-d')) {
-                                        $sesi = 'pending';
-                                    } elseif ($status->tanggal_akhir <= date('Y-m-d')) {
-                                        $sesi = 'end';
-                                    } else {
-                                        $sesi = 'open';
+                                    $sesi = '';
+                                    if ($status) {
+                                        if ($status->tanggal_awal >= date('Y-m-d')) {
+                                            $sesi = 'pending';
+                                        } elseif ($status->tanggal_akhir <= date('Y-m-d')) {
+                                            $sesi = 'end';
+                                        } else {
+                                            $sesi = 'open';
+                                        }
                                     }
 
                                 @endphp
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td><strong>{{ $item->layanan }}</strong></td>
-                                    <td style="width:160px;">
-                                        @if ($sesi == 'pending')
-                                            <span class="p-2 rounded text-white bg-warning">Sesi Belum di buka</span>
-                                        @elseif ($sesi == 'end')
-                                            <span class="p-2 rounded text-white bg-danger">sesi berakhir</span>
-                                        @else
-                                            <span class="p-2 rounded text-white bg-primary">sesi dibuka</span>
-                                        @endif
-                                    </td>
-                                    @if (Auth::user()->role == 'mahasiswa')
-                                        <td>
-                                            @if ($status->tanggal_awal >= date('Y-m-d') || $status->tanggal_akhir <= date('Y-m-d'))
-                                                @if ($bimbingan)
-                                                    <span class="text-success">Telah Bimbingan</span>
-                                                    @php
-                                                        $hasil_bimbingan = App\Models\BimbinganHasil::where('id_bimbingan', $bimbingan->id)->count();
-                                                    @endphp
-                                                    @if ($hasil_bimbingan == 0)
-                                                        <span class="badge badge-warning">Proses</span>
-                                                    @endif
-                                                @else
-                                                    <span class="text-danger">Terlambat Bimbingan</span>
-                                                    <br><small class="text-muted">*Silahkan segera komunikasikan pada dosen
-                                                        penasehat
-                                                        akademik</small>
-                                                @endif
+                                @if ($status)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td><strong>{{ $item->layanan }}</strong></td>
+                                        <td style="width:160px;">
+                                            @if ($sesi == 'pending')
+                                                <span class="p-2 rounded text-white bg-warning">Sesi Belum di buka</span>
+                                            @elseif ($sesi == 'end')
+                                                <span class="p-2 rounded text-white bg-danger">sesi berakhir</span>
+                                            @elseif ($sesi == 'open')
+                                                <span class="badge badge-primary">sesi dibuka</span>
                                             @else
-                                                <span class="text-warning">Proses Bimbingan</span>
+                                                <span class="badge badge-warning">Ada kesalahan pada periode</span>
                                             @endif
                                         </td>
-                                    @endif
-                                    <td>
-                                        Periode : {{ \Carbon\Carbon::parse($status->tanggal_awal ?? null)->format('d F') }}
-                                        sampai
-                                        {{ \Carbon\Carbon::parse($status->tanggal_akhir ?? null)->format('d F') }}
-                                    </td>
-                                    <td style="width: 250px;">
                                         @if (Auth::user()->role == 'mahasiswa')
-                                            @php
-                                                $cek_bimbingan = App\Models\Bimbingan::where('id_layanan', $item->id)
-                                                    ->where('id_user', Auth::user()->id)
-                                                    ->where('id_semester', App\Models\Semester::latest()->first()->id)
-                                                    ->count();
-                                            @endphp
-                                            @if ($cek_bimbingan != 0)
+                                            <td>
+                                                @if ($status->tanggal_awal >= date('Y-m-d') || $status->tanggal_akhir <= date('Y-m-d'))
+                                                    @if ($bimbingan)
+                                                        <span class="text-success">Telah Bimbingan</span>
+                                                        @php
+                                                            $hasil_bimbingan = App\Models\BimbinganHasil::where(
+                                                                'id_bimbingan',
+                                                                $bimbingan->id,
+                                                            )->count();
+                                                        @endphp
+                                                        @if ($hasil_bimbingan == 0)
+                                                            <span class="badge badge-warning">Proses</span>
+                                                        @endif
+                                                    @else
+                                                        <span class="text-danger">Terlambat Bimbingan</span>
+                                                        <br><small class="text-muted">*Silahkan segera komunikasikan pada
+                                                            dosen
+                                                            penasehat
+                                                            akademik</small>
+                                                    @endif
+                                                @else
+                                                    <span class="text-warning">Proses Bimbingan</span>
+                                                @endif
+                                            </td>
+                                        @endif
+                                        <td>
+                                            Periode :
+                                            {{ \Carbon\Carbon::parse($status->tanggal_awal ?? null)->format('d F') }}
+                                            sampai
+                                            {{ \Carbon\Carbon::parse($status->tanggal_akhir ?? null)->format('d F') }}
+                                        </td>
+                                        <td style="width: 250px;">
+                                            @if (Auth::user()->role == 'mahasiswa')
                                                 @php
-                                                    $view_bimbingan = App\Models\Bimbingan::where('id_layanan', $item->id)
+                                                    $cek_bimbingan = App\Models\Bimbingan::where(
+                                                        'id_layanan',
+                                                        $item->id,
+                                                    )
                                                         ->where('id_user', Auth::user()->id)
-                                                        ->where('id_semester', App\Models\Semester::latest()->first()->id)
-                                                        ->first();
+                                                        ->where(
+                                                            'id_semester',
+                                                            App\Models\Semester::latest()->first()->id,
+                                                        )
+                                                        ->count();
                                                 @endphp
-                                                <a href="{{ route('bimbingan.show', $view_bimbingan->id) }}"
-                                                    class="btn btn-primary "><i class="fa fa-folder-open"></i> Lihat
-                                                    Bimbingan
-                                                </a>
+                                                @if ($cek_bimbingan != 0)
+                                                    @php
+                                                        $view_bimbingan = App\Models\Bimbingan::where(
+                                                            'id_layanan',
+                                                            $item->id,
+                                                        )
+                                                            ->where('id_user', Auth::user()->id)
+                                                            ->where(
+                                                                'id_semester',
+                                                                App\Models\Semester::latest()->first()->id,
+                                                            )
+                                                            ->first();
+                                                    @endphp
+                                                    <a href="{{ route('bimbingan.show', $view_bimbingan->id) }}"
+                                                        class="btn btn-primary "><i class="fa fa-folder-open"></i> Lihat
+                                                        Bimbingan
+                                                    </a>
+                                                @else
+                                                    <a href="#" data-toggle="modal"
+                                                        data-target="#form-{{ $item->id }}"
+                                                        class="btn btn-primary @if ($sesi != 'open') disabled @endif"><i
+                                                            class="fa fa-plus"></i> Buat Bimbingan
+                                                    </a>
+                                                @endif
                                             @else
-                                                <a href="#" data-toggle="modal"
-                                                    data-target="#form-{{ $item->id }}"
-                                                    class="btn btn-primary @if ($sesi != 'open') disabled @endif"><i
-                                                        class="fa fa-plus"></i> Buat Bimbingan
+                                                <a href="{{ route('bimbingan.mahasiswa', $item->id) }}"
+                                                    class="btn btn-primary @if ($sesi == 'pending') disabled @endif"><i
+                                                        class="fa  fa-folder-open"></i>
+                                                    Lihat Mahasiswa
                                                 </a>
                                             @endif
-                                        @else
-                                            <a href="{{ route('bimbingan.mahasiswa', $item->id) }}"
-                                                class="btn btn-primary @if ($sesi == 'pending') disabled @endif"><i
-                                                    class="fa  fa-folder-open"></i>
-                                                Lihat Mahasiswa
-                                            </a>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @include('pages.bimbingan.components.modal_form')
+                                        </td>
+                                    </tr>
+                                    @include('pages.bimbingan.components.modal_form')
+                                @else
+                                    <tr>
+                                        <td colspan="5"> <span class="text-center text-muted">Belum ada layanan bimbingan
+                                                pada semester ini</span></td>
+                                    </tr>
+                                @endif
                             @endforeach
                         </tbody>
                     </table>

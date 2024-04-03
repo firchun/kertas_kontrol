@@ -89,7 +89,7 @@
                             ->first();
                         $sesi = '';
 
-                        if ($status->tanggal_awal != null || $status->tanggal_akhir != null) {
+                        if ($status) {
                             if ($status->tanggal_awal >= date('Y-m-d')) {
                                 $sesi = 'pending';
                             } elseif ($status->tanggal_akhir <= date('Y-m-d')) {
@@ -185,7 +185,7 @@
                             ->where('id_semester', $semester)
                             ->first();
                         $sesi = '';
-                        if ($status != null) {
+                        if ($status) {
                             if ($status->tanggal_awal >= date('Y-m-d')) {
                                 $sesi = 'pending';
                             } elseif ($status->tanggal_akhir <= date('Y-m-d')) {

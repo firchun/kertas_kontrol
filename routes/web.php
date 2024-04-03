@@ -70,18 +70,20 @@ Route::middleware(['role:admin'])->group(function () {
     Route::post('/jenis_hambatan/store', [JenisHambatanController::class, 'store'])->name('jenis_hambatan.store');
     Route::put('/jenis_hambatan/update/{id}', [JenisHambatanController::class, 'update'])->name('jenis_hambatan.update');
     Route::delete('/jenis_hambatan/destroy/{id}', [JenisHambatanController::class, 'destroy'])->name('jenis_hambatan.destroy');
-    //penasehat akademik
-    Route::get('/penasehat_akademik', [PenasehatAkademikController::class, 'index'])->name('penasehat_akademik');
-    Route::get('/penasehat_akademik/mahasiswa/{id}', [PenasehatAkademikController::class, 'mahasiswa'])->name('penasehat_akademik.mahasiswa');
-    Route::post('/penasehat_akademik/store', [PenasehatAkademikController::class, 'store'])->name('penasehat_akademik.store');
-    Route::put('/penasehat_akademik/update/{id}', [PenasehatAkademikController::class, 'update'])->name('penasehat_akademik.update');
-    Route::delete('/penasehat_akademik/destroy/{id}', [PenasehatAkademikController::class, 'destroy'])->name('penasehat_akademik.destroy');
 });
 Route::middleware(['role:dosen'])->group(function () {
     //bimbingan
     Route::get('/bimbingan', [BimbinganController::class, 'index'])->name('bimbingan');
 
     Route::post('/bimbingan/store_hasil', [BimbinganController::class, 'store_hasil'])->name('bimbingan.store_hasil');
+});
+Route::middleware(['role:admin,ketua_jurusan'])->group(function () {
+    //penasehat akademik
+    Route::get('/penasehat_akademik', [PenasehatAkademikController::class, 'index'])->name('penasehat_akademik');
+    Route::get('/penasehat_akademik/mahasiswa/{id}', [PenasehatAkademikController::class, 'mahasiswa'])->name('penasehat_akademik.mahasiswa');
+    Route::post('/penasehat_akademik/store', [PenasehatAkademikController::class, 'store'])->name('penasehat_akademik.store');
+    Route::put('/penasehat_akademik/update/{id}', [PenasehatAkademikController::class, 'update'])->name('penasehat_akademik.update');
+    Route::delete('/penasehat_akademik/destroy/{id}', [PenasehatAkademikController::class, 'destroy'])->name('penasehat_akademik.destroy');
 });
 Route::middleware(['role:dosen,mahasiswa'])->group(function () {
     //bimbingan

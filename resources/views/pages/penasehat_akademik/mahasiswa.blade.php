@@ -30,10 +30,12 @@
                 <a href="{{ route('penasehat_akademik') }}" class="btn btn-secondary mx-2"><i class="fa fa-arrow-left"></i>
                     Kembali
                 </a>
-                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#create"><i
-                        class="fa fa-plus"></i>
-                    Tambah Mahasiswa
-                </a>
+                @if (Auth::user()->role == 'admin')
+                    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#create"><i
+                            class="fa fa-plus"></i>
+                        Tambah Mahasiswa
+                    </a>
+                @endif
             </div>
 
             <div class="card shadow mb-4">
@@ -58,10 +60,26 @@
                                     <td><strong>{{ $item->mahasiswa->name }}</strong><br>{{ $item->mahasiswa->npm }}
                                     </td>
 
-                                    <td style="width: 150px;">
-                                        <a href="#" data-toggle="modal" data-target="#delete-{{ $item->id }}"
-                                            class="btn btn-danger"><i class="fa fa-trash"></i> Hapus
-                                        </a>
+                                    <td style="width: 300px;">
+                                        @if (Auth::user()->role == 'admin')
+                                            <a href="#" data-toggle="modal" data-target="#delete-{{ $item->id }}"
+                                                class="btn btn-danger"><i class="fa fa-trash"></i> Hapus
+                                            </a>
+                                        @elseif(Auth::user()->role == 'ketua_jurusan')
+                                            <form action="{{ route('bimbingan.riwayat.print') }}" method="GET"
+                                                class="d-flex">
+                                                <input type="hidden" name="id_mahasiswa"
+                                                    value="{{ $item->id_mahasiswa }}">
+                                                <select name="id_semester" class="form-control mr-3">
+                                                    @foreach (App\Models\Semester::all() as $list)
+                                                        <option value="{{ $list->id }}">{{ $list->code }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>
+                                                    Cetak
+                                                    Riwayat</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @include('pages.penasehat_akademik.components.modal_delete')

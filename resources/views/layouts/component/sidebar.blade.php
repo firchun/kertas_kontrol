@@ -88,6 +88,18 @@
     <div class="sidebar-heading">
         {{ __('Bimbingan') }}
     </div>
+    @if (Auth::user()->role == 'ketua_jurusan')
+        <!-- Nav Item - penasehat_akademik -->
+        <li
+            class="nav-item {{ Nav::isRoute('penasehat_akademik') }} {{ Nav::isRoute('penasehat_akademik.mahasiswa') }}">
+            <a class="nav-link" href="{{ route('penasehat_akademik') }}">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>{{ __('Penasehat Akademik') }}</span>
+            </a>
+        </li>
+    @endif
+    <!-- Divider -->
+
     @if (Auth::user()->role == 'mahasiswa' || Auth::user()->role == 'dosen')
         <!-- Nav Item - bimbingan -->
         <li class="nav-item {{ Nav::isRoute('bimbingan') }}">

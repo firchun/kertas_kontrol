@@ -39,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/bimbingan/riwayat/mahasiswa/{code}', [BimbinganController::class, 'riwayat_mahasiswa'])->name('bimbingan.riwayat.mahasiswa');
     Route::get('/bimbingan/mahasiswa/{id}', [BimbinganController::class, 'mahasiswa'])->name('bimbingan.mahasiswa');
     Route::get('/bimbingan/riwayat/print', [BimbinganController::class, 'print'])->name('bimbingan.riwayat.print');
+    Route::get('/bimbingan/riwayat/preview', [BimbinganController::class, 'preview'])->name('bimbingan.riwayat.preview');
     Route::get('/bimbingan/chart_hambatan/{code}', [HomeController::class, 'chart_hambatan'])->name('bimbingan.chart_hambatan');
 
     //chat bimbingan

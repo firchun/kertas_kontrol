@@ -56,7 +56,10 @@
                             @foreach ($mahasiswa as $mahasiswaItem)
                                 @php
                                     if (Auth::user()->role == 'dosen') {
-                                        $bimbingan = App\Models\Bimbingan::where('id_user', $mahasiswaItem->id_mahasiswa)
+                                        $bimbingan = App\Models\Bimbingan::where(
+                                            'id_user',
+                                            $mahasiswaItem->id_mahasiswa,
+                                        )
                                             ->where('id_semester', $semester->id)
                                             ->orderBy('id_layanan', 'asc')
                                             ->get();
@@ -83,7 +86,10 @@
                                             <ol>
                                                 @foreach ($bimbingan as $bimbinganItem)
                                                     @php
-                                                        $hasil_bimbingan = App\Models\BimbinganHasil::where('id_bimbingan', $bimbinganItem->id)->get();
+                                                        $hasil_bimbingan = App\Models\BimbinganHasil::where(
+                                                            'id_bimbingan',
+                                                            $bimbinganItem->id,
+                                                        )->get();
                                                     @endphp
                                                     <li>{{ $bimbinganItem->layanan->layanan }}
                                                         @if ($hasil_bimbingan->count() == 0)
@@ -97,13 +103,25 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <form action="{{ route('bimbingan.riwayat.print') }}" method="GET">
-                                            <input type="hidden" name="id_mahasiswa"
-                                                value="{{ Auth::user()->role == 'dosen' ? $mahasiswaItem->id_mahasiswa : $mahasiswaItem->id }}">
-                                            <input type="hidden" name="id_semester" value="{{ $semester->id }}">
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i> Cetak
-                                                Riwayat</button>
-                                        </form>
+                                        @if (Auth::user()->role != 'ketua_jurusan')
+                                            <form action="{{ route('bimbingan.riwayat.print') }}" method="GET">
+                                                <input type="hidden" name="id_mahasiswa"
+                                                    value="{{ Auth::user()->role == 'dosen' ? $mahasiswaItem->id_mahasiswa : $mahasiswaItem->id }}">
+                                                <input type="hidden" name="id_semester" value="{{ $semester->id }}">
+                                                <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>
+                                                    Cetak
+                                                    Riwayat</button>
+                                            </form>
+                                        @else
+                                            <form action="{{ route('bimbingan.riwayat.preview') }}" method="GET">
+                                                <input type="hidden" name="id_mahasiswa"
+                                                    value="{{ Auth::user()->role == 'dosen' ? $mahasiswaItem->id_mahasiswa : $mahasiswaItem->id }}">
+                                                <input type="hidden" name="id_semester" value="{{ $semester->id }}">
+                                                <button type="submit" class="btn btn-primary">
+                                                    Lihat
+                                                    Riwayat</button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

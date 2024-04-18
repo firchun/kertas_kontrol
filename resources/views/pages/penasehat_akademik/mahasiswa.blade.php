@@ -66,17 +66,17 @@
                                                 class="btn btn-danger"><i class="fa fa-trash"></i> Hapus
                                             </a>
                                         @elseif(Auth::user()->role == 'ketua_jurusan')
-                                            <form action="{{ route('bimbingan.riwayat.print') }}" method="GET"
+                                            <form action="{{ route('bimbingan.riwayat.preview') }}" method="GET"
                                                 class="d-flex">
                                                 <input type="hidden" name="id_mahasiswa"
-                                                    value="{{ Auth::user()->role == 'dosen' ? $item->id_mahasiswa : $item->id }}">
+                                                    value="{{ Auth::user()->role == 'dosen' ? $item->id_mahasiswa : $item->id_mahasiswa }}">
                                                 <select name="id_semester" class="form-control mr-3">
                                                     @foreach (App\Models\Semester::all() as $list)
                                                         <option value="{{ $list->id }}">{{ $list->code }}</option>
                                                     @endforeach
                                                 </select>
-                                                <button type="submit" class="btn btn-primary"><i class="fa fa-print"></i>
-                                                    Cetak
+                                                <button type="submit" class="btn btn-primary">
+                                                    Lihat
                                                     Riwayat</button>
                                             </form>
                                         @endif

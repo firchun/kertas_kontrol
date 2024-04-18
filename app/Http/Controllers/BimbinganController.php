@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade as PDF;
+use Exception;
 
 class BimbinganController extends Controller
 {
@@ -219,8 +220,11 @@ class BimbinganController extends Controller
 
         $angkatan = substr($mahasiswa->npm ?? 0, 0, 4);
         $tahun = date('Y');
-        $semester_mahasiswa = ($tahun - $angkatan) * 2  + ($semester->semester == 'ganjil' ? 1 : 0);
-
+        try {
+            $semester_mahasiswa = ($tahun - $angkatan) * 2  + ($semester->semester == 'ganjil' ? 1 : 0);
+        } catch (Exception $e) {
+            $semester_mahasiswa = null;
+        }
         $pdf =  \PDF::loadView('pages.bimbingan.riwayat.print', [
             'data' => $bimbingan,
             'semester' => $semester,
@@ -272,8 +276,11 @@ class BimbinganController extends Controller
 
         $angkatan = substr($mahasiswa->npm ?? 0, 0, 4);
         $tahun = date('Y');
-        $semester_mahasiswa = ($tahun - $angkatan) * 2  + ($semester->semester == 'ganjil' ? 1 : 0);
-
+        try {
+            $semester_mahasiswa = ($tahun - $angkatan) * 2  + ($semester->semester == 'ganjil' ? 1 : 0);
+        } catch (Exception $e) {
+            $semester_mahasiswa = null;
+        }
         $data =  [
             'title' => 'data bimbingan ' . $semester->code . ': ' . $mahasiswa->name,
             'data' => $bimbingan,

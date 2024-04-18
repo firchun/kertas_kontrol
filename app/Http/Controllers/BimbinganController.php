@@ -219,8 +219,8 @@ class BimbinganController extends Controller
         // dd($id_mahasiswa);
 
         try {
-            $angkatan = substr($mahasiswa->npm ?? 0, 0, 4);
-            $tahun = date('Y');
+            $angkatan = intval(substr($mahasiswa->npm ?? 0, 0, 4));
+            $tahun = intval(date('Y'));
             $semester_mahasiswa = ($tahun - $angkatan) * 2  + ($semester->semester == 'ganjil' ? 1 : 0);
         } catch (Exception $e) {
             $semester_mahasiswa = 0;

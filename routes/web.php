@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BimbinganController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JenisHambatanController;
 use App\Http\Controllers\LayananController;
@@ -26,6 +27,7 @@ use Illuminate\Http\Request;
 Auth::routes();
 Route::middleware(['auth'])->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
+    Route::put('/readChat/{id}', [ChatController::class, 'readChat'])->name('read_chat');
     //notifikasi
     Route::get('/notifikasi', 'HomeController@notifikasi')->name('notifikasi');
     Route::put('/read_notif/{id}', [NotifikasiController::class, 'read'])->name('read_notif');

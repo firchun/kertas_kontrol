@@ -74,7 +74,7 @@
                         <td style="width: 30%;">{{ $mahasiswa->name }}</td>
                         <td><b>Dosen Pendamping Akademik</b></td>
                         <td style="width: 5px;">:</td>
-                        <td>{{ $dosen_pa->dosen->name . ' ' . $dosen_pa->dosen->last_name }}</td>
+                        <td>{{ $dosen_pa ? $dosen_pa->dosen->name . ' ' . $dosen_pa->dosen->last_name : null }}</td>
                     </tr>
                     <tr>
                         <td><b>NPM</b></td>
@@ -82,12 +82,12 @@
                         <td>{{ $mahasiswa->npm }}</td>
                         <td><b>NIP/NIDN</b></td>
                         <td style="width: 5px;">:</td>
-                        <td>{{ $dosen_pa->dosen->nip }}</td>
+                        <td>{{ $dosen_pa ? $dosen_pa->dosen->nip : null }}</td>
                     </tr>
                     <tr>
                         <td><b>Semester</b></td>
                         <td style="width: 5px;">:</td>
-                        <td>{{ $semester_mahasiswa }}</td>
+                        <td>{{ $semester_mahasiswa ?? 0 }}</td>
                         <td></td>
                         <td style="width: 5px;"></td>
                         <td></td>

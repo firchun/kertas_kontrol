@@ -218,12 +218,12 @@ class BimbinganController extends Controller
         $semester = Semester::find($id_semester);
         // dd($id_mahasiswa);
 
-        $angkatan = substr($mahasiswa->npm ?? 0, 0, 4);
-        $tahun = date('Y');
         try {
+            $angkatan = substr($mahasiswa->npm ?? 0, 0, 4);
+            $tahun = date('Y');
             $semester_mahasiswa = ($tahun - $angkatan) * 2  + ($semester->semester == 'ganjil' ? 1 : 0);
         } catch (Exception $e) {
-            $semester_mahasiswa = null;
+            $semester_mahasiswa = 0;
         }
         $pdf =  \PDF::loadView('pages.bimbingan.riwayat.print', [
             'data' => $bimbingan,
@@ -274,12 +274,12 @@ class BimbinganController extends Controller
         $semester = Semester::find($id_semester);
         // dd($id_mahasiswa);
 
-        $angkatan = substr($mahasiswa->npm ?? 0, 0, 4);
-        $tahun = date('Y');
         try {
+            $angkatan = substr($mahasiswa->npm ?? 0, 0, 4);
+            $tahun = date('Y');
             $semester_mahasiswa = ($tahun - $angkatan) * 2  + ($semester->semester == 'ganjil' ? 1 : 0);
         } catch (Exception $e) {
-            $semester_mahasiswa = null;
+            $semester_mahasiswa = 0;
         }
         $data =  [
             'title' => 'data bimbingan ' . $semester->code . ': ' . $mahasiswa->name,

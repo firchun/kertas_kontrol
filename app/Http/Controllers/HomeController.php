@@ -87,4 +87,27 @@ class HomeController extends Controller
 
         return response()->json(['jenis_hambatan' => $idHambatan, 'jumlah' => $countByHambatan]);
     }
+    public function chart_hambatan_dosen($code)
+    {
+        $data = BimbinganHambatan::whereHas('semester', function ($query) use ($code) {
+            $query->where('code', $code);
+        })->get();
+
+        // Proses data untuk grafik
+        $hambatanCount = [];
+        foreach ($data as $item) {
+            $idHambatan = $item->hambatan->jenis_hambatan;
+            if (isset($hambatanCount[$idHambatan])) {
+                $hambatanCount[$idHambatan]++;
+            } else {
+                $hambatanCount[$idHambatan] = 1;
+            }
+        }
+
+        // Persiapkan data untuk dikirim ke view
+        $idHambatan = array_keys($hambatanCount);
+        $countByHambatan = array_values($hambatanCount);
+
+        return response()->json(['jenis_hambatan' => $idHambatan, 'jumlah' => $countByHambatan]);
+    }
 }

@@ -23,7 +23,7 @@
                         <label for="id_hambatan">Pilih Beberapa hambatan <span
                                 class="small text-danger">*</span></label>
                         <select class="form-control" id="id_hambatan" name="id_hambatan[]" multiple required>
-                            @foreach (App\Models\JenisHambatan::all() as $item)
+                            @foreach (App\Models\JenisHambatan::where('id_layanan', $layanan->id)->get() as $item)
                                 <option value="{{ $item->id }}">{{ $item->jenis_hambatan }}</option>
                             @endforeach
                         </select>

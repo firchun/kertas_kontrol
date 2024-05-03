@@ -30,7 +30,6 @@
             </ul>
         </div>
     @endif
-
     <div class="row">
 
         <div class="col-lg-12 ">
@@ -72,7 +71,10 @@
                                             <span class="text-primary">Telah Mengisi Kartu Bimbingan</span><br>
                                             @if ($cek_bimbingan)
                                                 @php
-                                                    $hasil_bimbingan = App\Models\BimbinganHasil::where('id_bimbingan', $bimbingan->id)->count();
+                                                    $hasil_bimbingan = App\Models\BimbinganHasil::where(
+                                                        'id_bimbingan',
+                                                        $bimbingan->id,
+                                                    )->count();
                                                 @endphp
                                                 @if ($hasil_bimbingan != 0)
                                                     <span class="badge badge-success">Selesai</span>
@@ -90,7 +92,10 @@
                                                 $view_bimbingan =
                                                     App\Models\Bimbingan::where('id_layanan', $layanan->id)
                                                         ->where('id_user', $item->id_mahasiswa)
-                                                        ->where('id_semester', App\Models\Semester::latest()->first()->id)
+                                                        ->where(
+                                                            'id_semester',
+                                                            App\Models\Semester::latest()->first()->id,
+                                                        )
                                                         ->first() ?? null;
                                             @endphp
                                             <a href="{{ route('bimbingan.show', $view_bimbingan->id) }}"

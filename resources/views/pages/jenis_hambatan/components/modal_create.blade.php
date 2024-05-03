@@ -11,6 +11,15 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group ">
+                        <label class="form-control-label" for="jenis_hambatan">Pilih Layanan<span
+                                class="small text-danger">*</span></label>
+                        <select class="form-control" name="id_layanan" required>
+                            @foreach ($layanan as $item)
+                                <option value="{{ $item->id }}">{{ $item->layanan }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group ">
                         <label class="form-control-label" for="jenis_hambatan">Jenis Hambatan<span
                                 class="small text-danger">*</span></label>
                         <input type="text" class="form-control" name="jenis_hambatan" placeholder="Jenis Hambatan">

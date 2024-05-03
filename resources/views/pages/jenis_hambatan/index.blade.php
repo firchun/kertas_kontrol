@@ -45,6 +45,7 @@
                             <tr>
                                 <th>#</th>
                                 <th>Jenis Hambatan</th>
+                                <th>Layanan</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -53,6 +54,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td><strong>{{ $item->jenis_hambatan }}</strong></td>
+                                    <td>{{ $item->layanan->layanan }}</td>
                                     <td style="width: 250px;">
                                         <a href="#" data-toggle="modal" data-target="#edit-{{ $item->id }}"
                                             class="btn btn-warning"><i class="fa fa-pencil"></i> Edit

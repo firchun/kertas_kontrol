@@ -14,6 +14,17 @@
                 <div class="modal-body">
                     <div class="modal-body">
                         <div class="form-group ">
+                            <label class="form-control-label" for="jenis_hambatan">Pilih Layanan<span
+                                    class="small text-danger">*</span></label>
+                            <select class="form-control" name="id_layanan" required>
+                                @foreach ($layanan as $itemLayanan)
+                                    <option value="{{ $itemLayanan->id }}"
+                                        {{ $itemLayanan->id == $item->id_layanan ? 'selected' : '' }}>
+                                        {{ $itemLayanan->layanan }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group ">
                             <label class="form-control-label" for="jenis_hambatan">jenis hambatan<span
                                     class="small text-danger">*</span></label>
                             <input type="text" class="form-control" name="jenis_hambatan"

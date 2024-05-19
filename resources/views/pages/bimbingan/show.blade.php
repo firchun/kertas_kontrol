@@ -51,24 +51,28 @@
                         <h6 class="m-0 font-weight-bold text-primary">Detail Dosen</h6>
                     </div>
                     <div class="card-body">
-                        <table class="table" style="font-size: 12px;">
-                            <tr>
-                                <td>
-                                    <strong>{{ $dosen_pa->dosen->name . ' ' . $dosen_pa->dosen->last_name }}</strong>
-                                    <br>{{ $dosen_pa->dosen->nip }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>{{ $dosen_pa->dosen->phone ?? '0' }}</strong>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <strong>{{ $dosen_pa->dosen->address ?? '-' }}</strong>
-                                </td>
-                            </tr>
-                        </table>
+                        @if ($dosen_pa)
+                            <table class="table" style="font-size: 12px;">
+                                <tr>
+                                    <td>
+                                        <strong>{{ $dosen_pa->dosen->name . ' ' . $dosen_pa->dosen->last_name }}</strong>
+                                        <br>{{ $dosen_pa->dosen->nip }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>{{ $dosen_pa->dosen->phone ?? '0' }}</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>{{ $dosen_pa->dosen->address ?? '-' }}</strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        @else
+                            <p class="text-muted text-center">Belum ada dosen PA</p>
+                        @endif
                     </div>
                 </div>
             </div>

@@ -99,7 +99,9 @@ class ChatController extends Controller
         $room = array_intersect_key($my_room, $target_room);
 
         // If room exists
-        if ($room) return redirect()->route('chat.room', ['room' => array_keys($room)[0]]);
+        if ($room) {
+            return redirect()->route('chat.room', ['room' => array_keys($room)[0]]);
+        }
 
         // If room doesn't exist
         $uuid = Str::orderedUuid();

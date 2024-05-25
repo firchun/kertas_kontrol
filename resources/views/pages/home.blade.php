@@ -25,54 +25,80 @@
     </div>
     <hr>
     @if (Auth::user()->role == 'admin' || Auth::user()->role == 'ketua_jurusan' || Auth::user()->role == 'dosen')
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-12">
                 @include('pages.components_dashboard.grafik_hambatan')
             </div>
             @if (Auth::user()->role == 'admin' || Auth::user()->role == 'ketua_jurusan')
                 <div class="col-12 mt-4">
-                    <h1>Analisis Hambatan Mahasiswa semester {{ App\Models\Semester::latest()->first()->code }}</h1>
+                    <h1>Analisis Singkat Hambatan Mahasiswa semester {{ App\Models\Semester::latest()->first()->code }}</h1>
                     <hr>
                 </div>
                 @foreach ($widget['hambatan'] as $hambatanItem)
-                    <div class="col-lg-3 p-2">
-                        @php
-                            $semester_now = App\Models\Semester::latest()->first();
-                            $semester_before = App\Models\Semester::latest()->skip(1)->first();
+                    @php
+                        $semester_now = App\Models\Semester::latest()->first();
+                        $semester_before = App\Models\Semester::latest()->skip(1)->first();
 
-                            $bimbinganHambatan = App\Models\BimbinganHambatan::where('id_semester', $semester_now->id)
-                                ->where('id_hambatan', $hambatanItem->id)
-                                ->get();
-                            $before = App\Models\BimbinganHambatan::where('id_semester', $semester_before->id ?? 0)
-                                ->where('id_hambatan', $hambatanItem->id)
-                                ->get();
+                        $bimbinganHambatan = App\Models\BimbinganHambatan::where('id_semester', $semester_now->id)
+                            ->where('id_hambatan', $hambatanItem->id)
+                            ->get();
+                        $before = App\Models\BimbinganHambatan::where('id_semester', $semester_before->id ?? 0)
+                            ->where('id_hambatan', $hambatanItem->id)
+                            ->get();
 
-                            $total_hambatan = App\Models\BimbinganHambatan::count();
+                        $total_hambatan = App\Models\BimbinganHambatan::count();
 
-                            $data_now = $bimbinganHambatan->count();
-                            $data_before = $before->count();
-                            $perbandingan = $data_now - $data_before;
-                            $persentase = ($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100;
-                        @endphp
-                        <div class="card {{ $perbandingan <= 0 ? 'border-success' : 'border-danger' }}">
-                            <div class="card-body">
-                                <b>{{ $hambatanItem->jenis_hambatan }}</b><br>
-                                <h2>
-                                    <span class="{{ $perbandingan <= 0 ? 'text-success' : 'text-danger' }}">
-                                        {{ number_format($persentase, 2) }} %</span>
-                                    @if ($data_now > $data_before)
-                                        <i class="fa fa-arrow-up text-danger"></i>
-                                    @elseif($data_now < $data_before)
-                                        <i class="fa fa-arrow-down text-success"></i>
-                                    @endif
-                                    </h1>
-                                    <p>Total : <b>{{ $data_now }}</b> Mahasiswa
-                                        <br>
-                                        Selisih : <b>{{ $perbandingan }}</b>
-                                    </p>
+                        $data_now = $bimbinganHambatan->count();
+                        $data_before = $before->count();
+                        $perbandingan = $data_now - $data_before;
+                        // $persentase = ($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100;
+                        $persentase = max(0, min(($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100, 100));
+                        $persentase = number_format($persentase, 0, '.', '');
+                        $status = '';
+                        if ($persentase != 0) {
+                            if ($data_now > $data_before) {
+                                $status = 'naik';
+                                $alertClass = 'alert-danger border-left-danger';
+                            } else {
+                                $status = 'turun';
+                                $alertClass = 'alert-success border-left-success';
+                            }
+                        }
+
+                    @endphp
+                    @if ($persentase != 0)
+                        <div class="col-lg-3 p-2">
+                            <div class="card {{ $perbandingan <= 0 ? 'border-success' : 'border-danger' }}">
+                                <div class="card-body">
+                                    <b>{{ $hambatanItem->jenis_hambatan }}</b><br>
+                                    <h2>
+                                        <span class="{{ $perbandingan <= 0 ? 'text-success' : 'text-danger' }}">
+                                            {{ $persentase }} %</span>
+                                        @if ($data_now > $data_before)
+                                            <i class="fa fa-arrow-up text-danger"></i>
+                                        @elseif($data_now < $data_before)
+                                            <i class="fa fa-arrow-down text-success"></i>
+                                        @endif
+                                        </h1>
+                                        <p>Total : <b>{{ $data_now }}</b> Mahasiswa
+
+                                        </p>
+                                        @if ($persentase != 0)
+                                            <div class="alert {{ $alertClass }} show" role="alert">
+                                                <small>
+                                                    Hambatan ini
+                                                    @if (!empty($status))
+                                                        <strong>{{ $status }}</strong>
+                                                    @endif
+                                                    sebanyak {{ $data_now }} Mahasiswa dari sebelumnya sebanyak
+                                                    {{ $data_before }} Mahasiswa
+                                                </small>
+                                            </div>
+                                        @endif
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 @endforeach
             @endif
         </div>

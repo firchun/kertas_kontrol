@@ -17,4 +17,8 @@ class Bimbingan extends Model
     {
         return $this->belongsTo(Layanan::class, 'id_layanan', 'id');
     }
+    public function bimbinganHasils()
+    {
+        return $this->hasMany(BimbinganHasil::class, 'id_bimbingan');
+    }
 }

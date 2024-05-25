@@ -83,7 +83,7 @@
                                                     ->get();
                                             @endphp
                                             <ul>
-                                                @foreach (App\Models\layanan::all() as $layanan)
+                                                @foreach (App\Models\Layanan::all() as $layanan)
                                                     @php
                                                         $layananExist = false;
                                                     @endphp

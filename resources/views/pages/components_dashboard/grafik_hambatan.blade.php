@@ -63,7 +63,7 @@
                     const newData = {
                         labels: jenisHambatan,
                         datasets: [{
-                            label: jenisHambatan,
+                            label: 'Jumlah Mahasiswa ',
                             data: countByHambatan,
                             backgroundColor: colors,
                             borderColor: colors.map(color => color.replace('0.2',
@@ -87,8 +87,9 @@
                             plugins: {
                                 legend: {
                                     display: false,
-                                    position: 'right',
+                                    // position: 'right',
                                 },
+
 
                             }
                         }

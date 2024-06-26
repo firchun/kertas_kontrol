@@ -66,39 +66,49 @@
                         }
 
                     @endphp
-                    @if ($persentase != 0)
-                        <div class="col-lg-3 p-2">
-                            <div class="card {{ $perbandingan <= 0 ? 'border-success' : 'border-danger' }}">
-                                <div class="card-body">
-                                    <b>{{ $hambatanItem->jenis_hambatan }}</b><br>
-                                    <h2>
-                                        <span class="{{ $perbandingan <= 0 ? 'text-success' : 'text-danger' }}">
-                                            {{ $persentase }} %</span>
-                                        @if ($data_now > $data_before)
-                                            <i class="fa fa-arrow-up text-danger"></i>
-                                        @elseif($data_now < $data_before)
-                                            <i class="fa fa-arrow-down text-success"></i>
-                                        @endif
-                                        </h1>
-                                        <p>Total : <b>{{ $data_now }}</b> Mahasiswa
+                    <div class="col-lg-3 p-2">
+                        <div class="card {{ $perbandingan <= 0 ? 'border-success' : 'border-danger' }}">
+                            <div class="card-body">
+                                <b>{{ $hambatanItem->jenis_hambatan }}</b><br>
+                                <h2>
+                                    <span class="{{ $perbandingan <= 0 ? 'text-success' : 'text-danger' }}">
+                                        {{ $persentase }} %</span>
+                                    @if ($data_now > $data_before)
+                                        <i class="fa fa-arrow-up text-danger"></i>
+                                    @elseif($data_now < $data_before)
+                                        <i class="fa fa-arrow-down text-success"></i>
+                                    @endif
+                                    </h1>
+                                    <p>Total : <b>{{ $data_now }}</b> Mahasiswa
 
-                                        </p>
-                                        @if ($persentase != 0)
-                                            <div class="alert {{ $alertClass }} show" role="alert">
-                                                <small>
-                                                    Hambatan ini
-                                                    @if (!empty($status))
-                                                        <strong>{{ $status }}</strong>
-                                                    @endif
-                                                    sebanyak {{ $data_now }} Mahasiswa dari sebelumnya sebanyak
-                                                    {{ $data_before }} Mahasiswa
-                                                </small>
-                                            </div>
-                                        @endif
-                                </div>
+                                    </p>
+                                    @if ($persentase != 0)
+                                        <div class="alert {{ $alertClass }} show" role="alert">
+                                            <small>
+                                                Hambatan ini
+                                                @if (!empty($status))
+                                                    <strong>{{ $status }}</strong>
+                                                @endif
+                                                sebanyak {{ $data_now }} Mahasiswa dari sebelumnya sebanyak
+                                                {{ $data_before }} Mahasiswa
+                                            </small>
+                                        </div>
+                                    @else
+                                        <div class="alert alert-success border-left-success show" role="alert">
+                                            <small>
+                                                Hambatan ini
+                                                @if (!empty($status))
+                                                    <strong>{{ $status }}</strong>
+                                                @endif
+                                                sebanyak {{ $data_now }} Mahasiswa dari sebelumnya sebanyak
+                                                {{ $data_before }} Mahasiswa
+                                            </small>
+                                        </div>
+                                    @endif
+
                             </div>
                         </div>
-                    @endif
+                    </div>
                 @endforeach
             @endif
         </div>

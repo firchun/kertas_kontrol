@@ -8,7 +8,14 @@
                     style="border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;">
                     <div class="card-body p-0">
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block  p-5" style="background-color: rgb(236, 236, 236); ">
+                                <div class="text-center">
+
+                                    <h3 class="text-primary font-weight-bold">LAYANAN BIMBINGAN</h3>
+                                    <img src="{{ asset('img/musamus.png') }}" style="height: 200px;" class="my-2">
+                                    <h3 class="text-primary font-weight-bold">JURUSAN SISTEM INFORMASI</h3>
+                                </div>
+                            </div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center mb-2">
@@ -18,8 +25,8 @@
                                             {{-- <img src="{{ asset('img/favicon.png') }}" class="img-fluid"
                                                 style="height:80px;"> --}}
                                         </div>
-                                        <h1 class="text-primary mb-0"><b>{{ env('APP_NAME') }}</b></h1>
-
+                                        <span class="h5 text-primary">Wellcome to</span>
+                                        <h1 class="text-primary mb-0 font-weight-bold">{{ env('APP_NAME') }}</h1>
                                         <hr>
 
                                         {{-- <P class="text-muted mb-3">Login untuk dapat mengakses berkas..</P> --}}

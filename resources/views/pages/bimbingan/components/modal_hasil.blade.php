@@ -44,7 +44,12 @@
                         <label>Rencana Kegiatan Selanjutnya <span class="text-danger">*</span></label>
                         <input type="hidden" name="no[]" value="6">
                         <input type="hidden" name="judul[]" value="Rencana Kegiatan Selanjutnya">
-                        <textarea name="isi[]" class="form-control" required></textarea>
+                        {{-- <textarea name="isi[]" class="form-control" required></textarea> --}}
+                        <select name="isi[]" class="form-control" required>
+                            @foreach (App\Models\Layanan::all() as $item)
+                                <option value="{{ $item->layanan }}">{{ $item->layanan }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

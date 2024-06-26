@@ -49,7 +49,9 @@
                                     <td>
                                         <strong>{{ $item->code }}</strong><br>
                                         @if ($item->id == $semester->first()->id)
-                                            <span class=" badge badge-danger">Active</span>
+                                            <span class=" badge badge-success">Active</span>
+                                        @else
+                                            <span class=" badge badge-danger">Selesai</span>
                                         @endif
                                     </td>
                                     <td style="width: 300px;">

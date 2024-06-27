@@ -20,7 +20,7 @@
                         <label>Tujuan Kegiatan <span class="text-danger">*</span></label>
                         <input type="hidden" name="no[]" value="2">
                         <input type="hidden" name="judul[]" value="Tujuan Kegiatan">
-                        <textarea name="isi[]" class="form-control" required></textarea>
+                        <textarea name="isi[]" class="form-control" required>{{ $layanan->layanan }}</textarea>
                     </div>
                     <div class="form-group mb-3">
                         <label>Hambatan <span class="text-danger">*</span></label>

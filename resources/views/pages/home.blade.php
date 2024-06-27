@@ -20,7 +20,7 @@
     @endif
 
     <div class="my-4 text-center bg-light">
-        <img src="{{ asset('img/favicon.png') }}" height="100px;" class="mb-3" alt="logo">
+        <img src="{{ asset('img/musamus.png') }}" height="100px;" class="mb-3" alt="logo">
         <h2><b class="text-primary">Dashboard</b><br>Sistem Informasi Bimbingan Akademik<br>Jurusan Sistem Infromasi</h2>
     </div>
     <hr>

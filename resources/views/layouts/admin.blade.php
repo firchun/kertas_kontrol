@@ -22,7 +22,7 @@
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
 
     <!-- Favicon -->
-    <link href="{{ asset('img/favicon.png') }}" rel="icon" type="image/png">
+    <link href="{{ asset('img/musamus.png') }}" rel="icon" type="image/png">
     <style>
         .ml-1,
         .mx-1 {

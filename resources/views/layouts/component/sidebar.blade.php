@@ -4,7 +4,7 @@
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
         <div class="sidebar-brand-icon ">
             {{-- <i class="fa-brands fa-stack-overflow"></i> --}}
-            <img src="{{ asset('img/favicon.png') }}" class="img-fluid" style="width:30px;">
+            <img src="{{ asset('img/musamus.png') }}" class="img-fluid" style="width:50px;">
         </div>
         <div class="sidebar-brand-text mx-3">{{ config('app.name', 'Kartu Kontrol') }}</div>
     </a>

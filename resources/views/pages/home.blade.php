@@ -52,17 +52,20 @@
                         $data_before = $before->count();
                         $perbandingan = $data_now - $data_before;
                         // $persentase = ($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100;
-                        // $persentase = max(0, min(($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100, 100));
-                        $persentase = max(0, min(($perbandingan / 1000) * 100, 100));
+                        $persentase = max(
+                            -100,
+                            min(($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100, 100),
+                        );
+
                         $persentase = number_format($persentase, 0, '.', '');
                         $status = '';
                         if ($persentase != 0) {
-                            if ($data_now > $data_before) {
-                                $status = 'naik';
-                                $alertClass = 'alert-danger border-left-danger';
+                            if ($persentase > 0) {
+                                $status = 'naik'; // Persentase di atas 0
+                                $alertClass = 'alert-danger border-left-danger'; // Alert danger untuk naik
                             } else {
-                                $status = 'turun';
-                                $alertClass = 'alert-success border-left-success';
+                                $status = 'turun'; // Persentase di bawah 0
+                                $alertClass = 'alert-success border-left-success'; // Alert success untuk turun
                             }
                         }
 
@@ -73,7 +76,7 @@
                                 <b>{{ $hambatanItem->jenis_hambatan }}</b><br>
                                 <h2>
                                     <span class="{{ $perbandingan <= 0 ? 'text-success' : 'text-danger' }}">
-                                        {{ $persentase }} %</span>
+                                        {{ abs($persentase) }} %</span>
                                     @if ($data_now > $data_before)
                                         <i class="fa fa-arrow-up text-danger"></i>
                                     @elseif($data_now < $data_before)
@@ -90,7 +93,7 @@
                                                 @if (!empty($status))
                                                     <strong>{{ $status }}</strong>
                                                 @endif
-                                                sebanyak {{ $data_now }} Mahasiswa dari sebelumnya sebanyak
+                                                sebanyak {{ abs($perbandingan) }} Mahasiswa dari sebelumnya sebanyak
                                                 {{ $data_before }} Mahasiswa
                                             </small>
                                         </div>

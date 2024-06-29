@@ -24,7 +24,9 @@
     <link href="{{ asset('img/musamus.png') }}" rel="icon" type="image/png">
 </head>
 
-<body class="bg-gradient-primary min-vh-100 d-flex justify-content-center align-items-center">
+{{-- <body class="bg-gradient-primary min-vh-100 d-flex justify-content-center align-items-center"> --}}
+
+<body class="bg-light min-vh-100 d-flex justify-content-center align-items-center">
 
     @yield('main-content')
 

@@ -52,7 +52,8 @@
                         $data_before = $before->count();
                         $perbandingan = $data_now - $data_before;
                         // $persentase = ($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100;
-                        $persentase = max(0, min(($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100, 100));
+                        // $persentase = max(0, min(($perbandingan / ($data_before != 0 ? $data_before : 1)) * 100, 100));
+                        $persentase = max(0, min(($perbandingan / 1000) * 100, 100));
                         $persentase = number_format($persentase, 0, '.', '');
                         $status = '';
                         if ($persentase != 0) {

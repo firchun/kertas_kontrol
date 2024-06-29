@@ -4,20 +4,22 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-xl-10 col-lg-12 col-md-9">
+                {{-- <div class="card o-hidden border-0  my-5"
+                    style="border-radius: 0px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;"> --}}
                 <div class="card o-hidden border-0  my-5"
-                    style="border-radius: 20px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;">
+                    style="border-radius: 0px; box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;">
                     <div class="card-body p-0">
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block  p-5" style="background-color: rgb(236, 236, 236); ">
+                            <div class="col-lg-6 d-none d-lg-block  p-5" style="background-color:WHITE; ">
                                 <div class="text-center">
 
-                                    <h3 class="text-primary font-weight-bold">LAYANAN BIMBINGAN</h3>
+                                    <h4 class="text-warning font-weight-bold">LAYANAN BIMBINGAN AKADEMIK<br>MAHASISWA</h4>
                                     <img src="{{ asset('img/musamus.png') }}" style="height: 200px;" class="my-2">
-                                    <h3 class="text-primary font-weight-bold">JURUSAN SISTEM INFORMASI</h3>
+                                    <h4 class="text-warning font-weight-bold">JURUSAN SISTEM INFORMASI</h4>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <div class="p-5">
+                                <div class="p-5 bg-primary">
                                     <div class="text-center mb-2">
                                         <div class=" mb-4 d-lg-none form-inline justify-content-center">
                                             {{-- <img src="{{ asset('img/favicon.png') }}" class="img-fluid pr-2 border-right"
@@ -25,8 +27,8 @@
                                             {{-- <img src="{{ asset('img/favicon.png') }}" class="img-fluid"
                                                 style="height:80px;"> --}}
                                         </div>
-                                        <span class="h5 text-primary">Wellcome to</span>
-                                        <h1 class="text-primary mb-0 font-weight-bold">{{ env('APP_NAME') }}</h1>
+                                        <span class="h5 text-white">Wellcome to</span>
+                                        <h1 class="text-white mb-0 font-weight-bold">{{ env('APP_NAME') }}</h1>
                                         <hr>
 
                                         {{-- <P class="text-muted mb-3">Login untuk dapat mengakses berkas..</P> --}}
@@ -65,12 +67,12 @@
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" name="remember"
                                                     id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                <label class="custom-control-label"
+                                                <label class="custom-control-label text-white"
                                                     for="remember">{{ __('Remember Me') }}</label>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            <button type="submit" class="btn btn-dark btn-user btn-block">
                                                 {{ __('Login') }}
                                             </button>
                                         </div>

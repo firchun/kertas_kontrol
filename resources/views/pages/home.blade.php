@@ -61,10 +61,10 @@
                         $status = '';
                         if ($persentase != 0) {
                             if ($persentase > 0) {
-                                $status = 'naik'; // Persentase di atas 0
+                                $status = 'NAIK'; // Persentase di atas 0
                                 $alertClass = 'alert-danger border-left-danger'; // Alert danger untuk naik
                             } else {
-                                $status = 'turun'; // Persentase di bawah 0
+                                $status = 'TURUN'; // Persentase di bawah 0
                                 $alertClass = 'alert-success border-left-success'; // Alert success untuk turun
                             }
                         }
@@ -101,10 +101,9 @@
                                         <div class="alert alert-success border-left-success show" role="alert">
                                             <small>
                                                 Hambatan ini
-                                                @if (!empty($status))
-                                                    <strong>{{ $status }}</strong>
-                                                @endif
-                                                sebanyak {{ $data_now }} Mahasiswa dari sebelumnya sebanyak
+                                                <strong>STABIL</strong>
+                                                dengan data saat ini sebanyak {{ $data_now }} Mahasiswa dan sebelumnya
+                                                sebanyak
                                                 {{ $data_before }} Mahasiswa
                                             </small>
                                         </div>
